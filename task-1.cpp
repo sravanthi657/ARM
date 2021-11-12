@@ -16,7 +16,7 @@ FP_Node* TreeNode(FP_Node* p)
 	newN->parent = p;newN->visited = false;
 	return newN;
 }
-void generate_FP_Tree(FP_Node *root,set<int>trans,int freq,vector<pair<int,int> >one_items)
+void generate_FP_Tree(FP_Node *root,set<int>trans,int freq,vector<pair<int,int> >one_items, vector<set<FP_TreeNode*> >&tb )
 {
 	FP_Node* temp = root;
 	for(int i=0;i<one_items.size();i++)
@@ -24,8 +24,18 @@ void generate_FP_Tree(FP_Node *root,set<int>trans,int freq,vector<pair<int,int> 
 		cur_trans= one_items[i].second;
 		if(trans.find(cur_trans)!=trans.end())
 		{
-			
-		}
+		   temp->children[trans]->cnt += freq;
+                   temp= temp->children[trans]; 
+                 }	
+		else
+                 { 
+                    FP_TreeNode *chi =TreeNode(temp);
+                    chi->val = trans;
+                    temp->children[tans] = chi;
+                    tb[trans]].insert(chi);
+                   temp->children[trans]->cnt += freq;
+                   temp= temp->children[trans]; 
+                  }
 	}
 
 }
@@ -132,9 +142,10 @@ int main()
 		return 0;
 	}
 	FP_Node* root = TreeNode(nullptr);
+        vector<set<FP_TreeNode*> >tb(one_items.size());  
 	for(int i=0;i<datum.size();i++)
 	{
-		generate_FP_Tree(root,datum[i].first,datum[i].second,one_items);
+		generate_FP_Tree(root,datum[i].first,datum[i].second,one_items,tb);
 	}
 
 }
