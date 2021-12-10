@@ -164,18 +164,23 @@ void FP_algo(vector<pair<set<int>,int> > datum, vector<int>symb,int mins)
 		{
 
 			int ini_cnt= datum[i].second;
+			set<int>::iterator sit;
 			// cout<<"transaction "<<i<<" sz "<<datum[i].first.size()<<endl;
-			for(auto it=datum[i].first.begin();it!=datum[i].first.end();it++)
+			for(sit=datum[i].first.begin();sit!=datum[i].first.end();sit++)
 			{
 				// cout<<"here\n it"<<*it<<" freq sz "<<freq.size()<<endl ;
-				if(freq.find(*it)!=freq.end())
-					freq[*it]=freq[*it]+ini_cnt;
+				if(freq.find(*sit)!=freq.end())
+					freq[*sit]=freq[*sit]+ini_cnt;
 				else
-					freq[*it]=ini_cnt;
+				{
+					freq[*sit]=0;
+					freq[*sit]+=ini_cnt;
+				}
 			}
 		}
-		// cout<<"freq "<<freq.size()<<endl;
-		for(auto it=freq.begin();it!=freq.end();it++)
+		// cout<<"freq "<<freq.size()<<endl; 
+		map<int,int>::iterator it ;
+		for(it=freq.begin();it!=freq.end();it++)
 		{
 			int sup_cnt = it->second;
 			if(sup_cnt>=mins)
@@ -192,8 +197,7 @@ void FP_algo(vector<pair<set<int>,int> > datum, vector<int>symb,int mins)
 
 		sort(one_items.rbegin(),one_items.rend());
 		for(int i=0;i<one_items.size();i++)
-			cout<<one_items[i].first<<" "<<one_items[i].second<<endl;
-		cout<<"after \n";
+            cout<<one_items[i].first<<" "<<one_items[i].second<<endl;
 		map<int,int>items_order;
 		for(int i=0;i<one_items.size();i++)
 			items_order[one_items[i].second]=i;
@@ -276,50 +280,51 @@ int main()
 	vector<int>symb;
 
 	FP_algo(datum, symb,mins);
+	cout<<"here"<<endl;
 	vector<pair<int, vector<int> > >beautify_sets;
 	// cout<<" FP algprithm is executed successfully\n";
 
 
-	int Size,cs;
-    vector<int> counts;
-	for(int i = 0; i < frequent_sets.size(); i++)
-    {
-        beautify_sets.push_back({frequent_sets[i].size(), frequent_sets[i]});
-    }
+	// int Size,cs;
+ //    vector<int> counts;
+	// for(int i = 0; i < frequent_sets.size(); i++)
+ //    {
+ //        beautify_sets.push_back({frequent_sets[i].size(), frequent_sets[i]});
+ //    }
 
-    sort(beautify_sets.begin(), beautify_sets.end());
-    for(int i = 0; i < beautify_sets.size();)
-    {
-        Size=beautify_sets[i].first;
-        cs=0;
-        while(i<beautify_sets.size() && beautify_sets[i].first==Size)
-        {
-            cs++;
-            i++;
-        }
-        counts.push_back(cs);
-    }
-    reverse(counts.begin(),counts.end());
-    for(int i = 0; i < beautify_sets.size();)
-    {
-        Size=beautify_sets[i].first;
-        // cout<<"Frequent Itemsets for k = "<<Size<<endl;
-        // cout<<"Number of Itemsets formed are : "<<counts.back()<<endl<<endl<<"[";
-        counts.pop_back();
-        while(i<beautify_sets.size() && beautify_sets[i].first==Size)
-        {
-            // cout<<"[";
-            for(int j = 0; j < beautify_sets[i].second.size(); j++)
-            {
-                // cout << beautify_sets[i].second[j] ;
-                // if(j!=beautify_sets[i].second.size()-1)
-                    // cout<<",";
-            }
-            // cout << "]";
-            i++;
-            // if(i<beautify_sets.size() && beautify_sets[i].first==Size)
-            // cout<<",";
-        }
-        // cout<<"]"<<endl<<endl;
-    }
+ //    sort(beautify_sets.begin(), beautify_sets.end());
+ //    for(int i = 0; i < beautify_sets.size();)
+ //    {
+ //        Size=beautify_sets[i].first;
+ //        cs=0;
+ //        while(i<beautify_sets.size() && beautify_sets[i].first==Size)
+ //        {
+ //            cs++;
+ //            i++;
+ //        }
+ //        counts.push_back(cs);
+ //    }
+ //    reverse(counts.begin(),counts.end());
+    // for(int i = 0; i < beautify_sets.size();)
+    // {
+    //     Size=beautify_sets[i].first;
+    //     // cout<<"Frequent Itemsets for k = "<<Size<<endl;
+    //     // cout<<"Number of Itemsets formed are : "<<counts.back()<<endl<<endl<<"[";
+    //     counts.pop_back();
+    //     while(i<beautify_sets.size() && beautify_sets[i].first==Size)
+    //     {
+    //         // cout<<"[";
+    //         for(int j = 0; j < beautify_sets[i].second.size(); j++)
+    //         {
+    //             // cout << beautify_sets[i].second[j] ;
+    //             // if(j!=beautify_sets[i].second.size()-1)
+    //                 // cout<<",";
+    //         }
+    //         // cout << "]";
+    //         i++;
+    //         // if(i<beautify_sets.size() && beautify_sets[i].first==Size)
+    //         // cout<<",";
+    //     }
+    //     // cout<<"]"<<endl<<endl;
+    // }
 }
